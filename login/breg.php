@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password =$_POST['password'];
 
     // Insert data into the database
     $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
@@ -29,6 +29,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
 $conn->close();
 ?>
