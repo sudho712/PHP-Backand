@@ -18,9 +18,10 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter Your Password" required>
             </div>
-            <div class="d-flex justify-content-between">
+            <div >
                 <button type="submit" class="btn btn-success">Login</button>
                 <a href="forget.php" class="btn btn-warning">Forget Password</a>
+                <a href="reg.php" class="btn btn-success" >reg </a>
             </div>
         </form>
     </div>
