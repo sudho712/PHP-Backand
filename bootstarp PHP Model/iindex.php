@@ -32,7 +32,7 @@
 
                     <div class="mb-3">
                         <label for="completeEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="completeName" placeholder="Enter your Email">
+                        <input type="email" class="form-control" id="completeEmail" placeholder="Enter your Email">
                     </div>
 
                     <div class="mb-3">
@@ -40,8 +40,8 @@
                         <input type="number" class="form-control" id="completeMobile" placeholder="Enter your Mobile">
                     </div>
                     <div class="mb-3">
-                        <label for="completeName" class="form-label">Place</label>
-                        <input type="text" class="form-control" id="completeName" placeholder="Enter your Place">
+                        <label for="completePlace" class="form-label">Place</label>
+                        <input type="text" class="form-control" id="completePlace" placeholder="Enter your Place">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -58,6 +58,32 @@
             Add New User
         </button>
     </div>
+
+    <script>
+        function addUser() {
+            var nameAdd = $('#completeName').val();
+            var emailAdd = $('#completeEmail').val();
+            var mobileAdd = $('#completeMobile').val();
+            var placeAdd = $('#completePlace').val();
+
+            $.ajax({
+                url: "insert.php",
+                type: 'post',
+                data: {
+                    nameSend: nameAdd,
+                    emailSend: emailAdd,
+                    mobileSend: mobileAdd,
+                    placeSend: placeAdd,
+                },
+                success: function(data, status) {
+                    // This function is called on a successful response
+                    console.log("Status: " + status); // Logs "success"
+                    console.log("Data: " + data); // Logs the server's response
+                },
+            });
+
+        }
+    </script>
 </body>
 
 </html>
