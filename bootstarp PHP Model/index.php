@@ -17,6 +17,9 @@
         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#completeModel">
             Add New User
         </button>
+        <div id="displayDataTable">
+                            lorem
+                        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="completeModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -25,6 +28,9 @@
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                       
+
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -46,7 +52,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="addUser()">Submit</button>
+                        <button type="button" class="btn btn-primary" onclick="addUser()">Submit</button>                       
                     </div>
                 </div>
             </div>
@@ -54,6 +60,24 @@
     </div>
 
     <script>
+        // Display Data Function
+        function displayData() {
+            var displayData = "true";
+            $.ajax({
+                url: "display.php",
+                type: 'post',
+                data: {
+                    displaySend: displayData
+                },
+                success: function(data, status) {
+                    /*   // Assuming you have an element to display the data
+                      $('#dataTable').html(data); // Replace 'dataTable' with the ID of your display area
+                      console.log("Data fetched successfully"); */
+                },
+            });
+        }
+
+
         function addUser() {
             // Collect form data
             var nameAdd = $('#completeName').val().trim();
@@ -78,14 +102,7 @@
                     placeSend: placeAdd,
                 },
                 success: function(response, status) {
-                    alert(response); // Alert server response
-                    // Reset form fields
-                    $('#completeName').val('');
-                    $('#completeEmail').val('');
-                    $('#completeMobile').val('');
-                    $('#completePlace').val('');
-                    // Close the modal
-                    $('#completeModel').modal('hide');
+                    displayData();
                 },
                 error: function(xhr, status, error) {
                     console.error("Error: " + error);
