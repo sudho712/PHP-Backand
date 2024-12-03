@@ -16,7 +16,7 @@ if (isset($_POST['nameSend']) && isset($_POST['emailSend']) && isset($_POST['mob
 
     // Check if the query was successful
     if ($result) {
-        echo "Data inserted successfully!";
+        echo "Error: " . mysqli_error($con);
     } else {
         echo "Error: " . mysqli_error($con);
     }

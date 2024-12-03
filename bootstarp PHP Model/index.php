@@ -13,24 +13,22 @@
 <body>
     <div class="container my-3">
         <h1 class="text-center">PHP CRUD Operation using Bootstrap Modal</h1>
+
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#completeModel">
+        <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal" data-bs-target="#completeModel">
             Add New User
         </button>
-        <div id="displayDataTable">
-                            lorem
-                        </div>
+
+        <!-- Data Table -->
+        <div id="displayDataTable"></div>
 
         <!-- Modal -->
         <div class="modal fade" id="completeModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
+                        <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                       
-
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -52,7 +50,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="addUser()">Submit</button>                       
+                        <button type="button" class="btn btn-primary" onclick="addUser()">Submit</button>
                     </div>
                 </div>
             </div>
@@ -62,38 +60,53 @@
     <script>
         // Display Data Function
         function displayData() {
-            var displayData = "true";
             $.ajax({
                 url: "display.php",
                 type: 'post',
                 data: {
-                    displaySend: displayData
+                    displaySend: true
                 },
-                success: function(data, status) {
-                    /*   // Assuming you have an element to display the data
-                      $('#dataTable').html(data); // Replace 'dataTable' with the ID of your display area
-                      console.log("Data fetched successfully"); */
+                success: function(data) {
+                    $('#displayDataTable').html(data);
                 },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching data: " + error);
+                }
             });
         }
 
-
+        // Add User Function
         function addUser() {
-            // Collect form data
             var nameAdd = $('#completeName').val().trim();
             var emailAdd = $('#completeEmail').val().trim();
             var mobileAdd = $('#completeMobile').val().trim();
             var placeAdd = $('#completePlace').val().trim();
 
-            // Validate form data
             if (!nameAdd || !emailAdd || !mobileAdd || !placeAdd) {
                 alert("All fields are required!");
                 return;
             }
+            // Delete Record
+            function deleteUser(deleteid) {
+                $.ajax({
+                    url: 'delete.php',
+                    type: 'POST',
+                    data: {
+                        deleteSend: deleteid
+                    },
+                    success: function(data, status) {
+                        displayData(); // Refresh the table after deletion
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error: " + error);
+                        alert("Failed to delete the record.");
+                    }
+                });
+            }
 
-            // AJAX request to send data to the server
+
             $.ajax({
-                url: "insert.php", // Server-side script
+                url: "insert.php",
                 type: "POST",
                 data: {
                     nameSend: nameAdd,
@@ -101,8 +114,14 @@
                     mobileSend: mobileAdd,
                     placeSend: placeAdd,
                 },
-                success: function(response, status) {
+                success: function(response) {
+                    alert("User added successfully!");
                     displayData();
+                    $('#completeModel').modal('hide');
+                    $('#completeName').val('');
+                    $('#completeEmail').val('');
+                    $('#completeMobile').val('');
+                    $('#completePlace').val('');
                 },
                 error: function(xhr, status, error) {
                     console.error("Error: " + error);
@@ -110,6 +129,11 @@
                 }
             });
         }
+
+        // Load data when the page is ready
+        $(document).ready(function() {
+            displayData();
+        });
     </script>
 </body>
 
